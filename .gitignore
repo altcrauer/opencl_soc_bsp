@@ -1,0 +1,11 @@
+.qsys_edit
+PLLJ_PLLSPE_INFO.txt
+c5_pin_model_dump.txt
+db
+hc_output
+hps_isw_handoff
+incremental_db
+output_files
+stamp
+*~
+*.bak
