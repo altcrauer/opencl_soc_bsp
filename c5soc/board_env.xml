@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<board_env version="13.0" name="c5soc">
-  <hardware dir="." default="c5soc"></hardware>
+<board_env version="13.0" name="c5soc_sharedonly">
+  <hardware dir="." default="c5soc_sharedonly"></hardware>
   <platform name="arm32">
     <linkflags>-L%b/arm32/lib</linkflags>
     <linklibs>-lalterahalmmd -lalterammdpcie</linklibs>
