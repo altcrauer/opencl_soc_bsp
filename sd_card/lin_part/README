@@ -1,0 +1,6 @@
+Run "source ./init_opencl.sh" to setup OpenCL Run-Time Environment,
+including loading driver, on this board. Do it once right after
+booting the board.
+
+OpenCL Run-Time Environment is pre-installed in opencl_arm32_rte
+folder.
