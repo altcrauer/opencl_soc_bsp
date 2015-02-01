@@ -10,5 +10,6 @@ SUB_TARGETS=clean distclean all test
 .PHONY: $(SUB_TARGETS) ipx
 
 ipx :
-	$(MAKE_IPX_COMMAND) --source-directory="iface,iface/ip" --output=iface.ipx
+	$(MAKE_IPX_COMMAND) --source-directory="iface,iface/ip" --output=c5iface.ipx
+	$(MAKE_IPX_COMMAND) --source-directory="$(ALTERAOCLSDKROOT)/ip/board" --output=iface.ipx  --relative-vars=ALTERAOCLSDKROOT
 

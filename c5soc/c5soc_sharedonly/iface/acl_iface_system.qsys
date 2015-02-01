@@ -7,10 +7,16 @@
    description=""
    tags=""
    categories="System" />
+ <parameter name="baseDevice" value="Unknown" />
  <parameter name="bonusData"><![CDATA[bonusData 
 {
    element $${FILENAME}
    {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
    }
    element acl_kernel_clk
    {
@@ -73,6 +79,19 @@
          type = "String";
       }
    }
+   element acl_kernel_interface.ctrl
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "16384";
+         type = "String";
+      }
+   }
    element hps.f2h_sdram0_data
    {
       datum _lockedAddress
@@ -105,17 +124,12 @@
          type = "int";
       }
    }
-   element acl_kernel_interface.kernel_cntrl
+   element pipe_stage_host_ctrl
    {
-      datum _lockedAddress
+      datum _sortIndex
       {
-         value = "1";
-         type = "boolean";
-      }
-      datum baseAddress
-      {
-         value = "16384";
-         type = "String";
+         value = "11";
+         type = "int";
       }
    }
    element pll
@@ -166,10 +180,12 @@
  <parameter name="generationId" value="0" />
  <parameter name="globalResetBus" value="false" />
  <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="hideFromIPCatalog" value="false" />
  <parameter name="maxAdditionalLatency" value="0" />
  <parameter name="projectName" value="" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="0" />
+ <parameter name="testBenchDutName" value="" />
  <parameter name="timeStamp" value="0" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
@@ -233,33 +249,37 @@
    dir="start" />
  <interface
    name="kernel_interface_acl_bsp_memorg_host"
-   internal="acl_kernel_interface.acl_bsp_memorg_host"
-   type="conduit"
-   dir="end" />
+   internal=".acl_bsp_memorg_host0x018" />
  <module
    kind="altera_reset_bridge"
-   version="13.1"
+   version="14.1"
    enabled="1"
    name="global_reset">
   <parameter name="ACTIVE_LOW_RESET" value="1" />
   <parameter name="SYNCHRONOUS_EDGES" value="none" />
   <parameter name="NUM_RESET_OUTPUTS" value="1" />
+  <parameter name="USE_RESET_REQUEST" value="0" />
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
  </module>
  <module
    kind="altera_clock_bridge"
-   version="13.1"
+   version="14.1"
    enabled="1"
    name="config_clk">
   <parameter name="DERIVED_CLOCK_RATE" value="0" />
   <parameter name="EXPLICIT_CLOCK_RATE" value="50000000" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
  </module>
- <module kind="acl_kernel_clk" version="1.0" enabled="1" name="acl_kernel_clk">
+ <module
+   kind="acl_kernel_clk_noreconfig"
+   version="1.0"
+   enabled="1"
+   name="acl_kernel_clk">
   <parameter name="AUTO_GENERATION_ID" value="0" />
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_kernel_clk</parameter>
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE" value="5CSXFC6D6F31C8ES" />
+  <parameter name="AUTO_BASE_DEVICE" value="Unknown" />
   <parameter name="AUTO_PLL_REFCLK_CLOCK_RATE" value="0" />
   <parameter name="AUTO_PLL_REFCLK_CLOCK_DOMAIN" value="6" />
   <parameter name="AUTO_PLL_REFCLK_RESET_DOMAIN" value="6" />
@@ -267,38 +287,41 @@
   <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
   <parameter name="REF_CLK_RATE" value="50.0" />
+  <parameter name="KERNEL_TARGET_CLOCK_RATE" value="140" />
  </module>
- <module kind="clock_source" version="13.1" enabled="1" name="kernel_clk">
+ <module kind="clock_source" version="14.1" enabled="1" name="kernel_clk">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
-  <parameter name="inputClockFrequency" value="100000000" />
+  <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="DEASSERT" />
  </module>
  <module
    kind="altera_clock_bridge"
-   version="13.1"
+   version="14.1"
    enabled="1"
    name="clock_bridge">
-  <parameter name="DERIVED_CLOCK_RATE" value="100000000" />
+  <parameter name="DERIVED_CLOCK_RATE" value="0" />
   <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
  </module>
  <module
    kind="altera_avalon_mm_clock_crossing_bridge"
-   version="13.1"
+   version="14.1"
    enabled="1"
    name="clock_cross_kernel_mem1">
   <parameter name="DATA_WIDTH" value="256" />
   <parameter name="SYMBOL_WIDTH" value="8" />
   <parameter name="ADDRESS_WIDTH" value="30" />
-  <parameter name="ADDRESS_UNITS" value="SYMBOLS" />
+  <parameter name="SYSINFO_ADDR_WIDTH" value="30" />
+  <parameter name="USE_AUTO_ADDRESS_WIDTH" value="1" />
+  <parameter name="ADDRESS_UNITS" value="WORDS" />
   <parameter name="MAX_BURST_SIZE" value="16" />
   <parameter name="COMMAND_FIFO_DEPTH" value="64" />
   <parameter name="RESPONSE_FIFO_DEPTH" value="64" />
   <parameter name="MASTER_SYNC_DEPTH" value="2" />
   <parameter name="SLAVE_SYNC_DEPTH" value="2" />
   <parameter name="AUTO_M0_CLK_CLOCK_RATE" value="100000000" />
-  <parameter name="AUTO_S0_CLK_CLOCK_RATE" value="100000000" />
+  <parameter name="AUTO_S0_CLK_CLOCK_RATE" value="0" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
  </module>
  <module kind="version_id" version="10.0" enabled="1" name="version_id">
@@ -306,7 +329,7 @@
   <parameter name="VERSION_ID" value="-1597521440" />
   <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
  </module>
- <module kind="altera_hps" version="13.1" enabled="1" name="hps">
+ <module kind="altera_hps" version="14.1" enabled="1" name="hps">
   <parameter name="MEM_VENDOR" value="Micron" />
   <parameter name="MEM_FORMAT" value="DISCRETE" />
   <parameter name="RDIMM_CONFIG" value="0000000000000000" />
@@ -336,7 +359,10 @@
   <parameter name="MEM_GUARANTEED_WRITE_INIT" value="false" />
   <parameter name="MEM_VERBOSE" value="true" />
   <parameter name="PINGPONGPHY_EN" value="false" />
+  <parameter name="DUPLICATE_AC" value="false" />
   <parameter name="REFRESH_BURST_VALIDATION" value="false" />
+  <parameter name="AP_MODE_EN" value="00" />
+  <parameter name="AP_MODE" value="false" />
   <parameter name="MEM_BL" value="OTF" />
   <parameter name="MEM_BT" value="Sequential" />
   <parameter name="MEM_ASR" value="Manual" />
@@ -514,7 +540,6 @@
   <parameter name="ENABLE_ISS_PROBES" value="false" />
   <parameter name="CALIB_REG_WIDTH" value="8" />
   <parameter name="USE_SEQUENCER_BFM" value="false" />
-  <parameter name="DEFAULT_FAST_SIM_MODEL" value="true" />
   <parameter name="PLL_SHARING_MODE" value="None" />
   <parameter name="NUM_PLL_SHARING_INTERFACES" value="1" />
   <parameter name="EXPORT_AFI_HALF_CLK" value="false" />
@@ -524,9 +549,17 @@
   <parameter name="USE_FAKE_PHY" value="false" />
   <parameter name="FORCE_MAX_LATENCY_COUNT_WIDTH" value="0" />
   <parameter name="ENABLE_NON_DESTRUCTIVE_CALIB" value="false" />
+  <parameter name="ENABLE_DELAY_CHAIN_WRITE" value="false" />
   <parameter name="TRACKING_ERROR_TEST" value="false" />
   <parameter name="TRACKING_WATCH_TEST" value="false" />
   <parameter name="MARGIN_VARIATION_TEST" value="false" />
+  <parameter name="AC_ROM_USER_ADD_0" value="0_0000_0000_0000" />
+  <parameter name="AC_ROM_USER_ADD_1" value="0_0000_0000_1000" />
+  <parameter name="TREFI" value="35100" />
+  <parameter name="REFRESH_INTERVAL" value="15000" />
+  <parameter name="ENABLE_NON_DES_CAL_TEST" value="false" />
+  <parameter name="TRFC" value="350" />
+  <parameter name="ENABLE_NON_DES_CAL" value="false" />
   <parameter name="EXTRA_SETTINGS" value="" />
   <parameter name="MEM_DEVICE" value="MISSING_MODEL" />
   <parameter name="FORCE_SYNTHESIS_LANGUAGE" value="" />
@@ -569,6 +602,8 @@
   <parameter name="TIMING_BOARD_AC_EYE_REDUCTION_H" value="0.0" />
   <parameter name="TIMING_BOARD_DQ_EYE_REDUCTION" value="0.0" />
   <parameter name="TIMING_BOARD_DELTA_DQS_ARRIVAL_TIME" value="0.0" />
+  <parameter name="TIMING_BOARD_READ_DQ_EYE_REDUCTION" value="0.0" />
+  <parameter name="TIMING_BOARD_DELTA_READ_DQS_ARRIVAL_TIME" value="0.0" />
   <parameter name="PACKAGE_DESKEW" value="false" />
   <parameter name="AC_PACKAGE_DESKEW" value="false" />
   <parameter name="TIMING_BOARD_MAX_CK_DELAY" value="0.419282" />
@@ -611,6 +646,70 @@
   <parameter name="NUM_DLL_SHARING_INTERFACES" value="1" />
   <parameter name="OCT_SHARING_MODE" value="None" />
   <parameter name="NUM_OCT_SHARING_INTERFACES" value="1" />
+  <parameter name="show_advanced_parameters" value="false" />
+  <parameter name="configure_advanced_parameters" value="false" />
+  <parameter name="customize_device_pll_info" value="false" />
+  <parameter name="device_pll_info_manual">{320000000 1600000000} {320000000 1000000000} {800000000 400000000 400000000}</parameter>
+  <parameter name="show_debug_info_as_warning_msg" value="false" />
+  <parameter name="show_warning_as_error_msg" value="false" />
+  <parameter name="eosc1_clk_mhz" value="25.0" />
+  <parameter name="eosc2_clk_mhz" value="25.0" />
+  <parameter name="F2SCLK_SDRAMCLK_Enable" value="false" />
+  <parameter name="F2SCLK_PERIPHCLK_Enable" value="false" />
+  <parameter name="F2SCLK_SDRAMCLK_FREQ" value="0" />
+  <parameter name="F2SCLK_PERIPHCLK_FREQ" value="0" />
+  <parameter name="periph_pll_source" value="0" />
+  <parameter name="sdmmc_clk_source" value="2" />
+  <parameter name="nand_clk_source" value="2" />
+  <parameter name="qspi_clk_source" value="1" />
+  <parameter name="l4_mp_clk_source" value="1" />
+  <parameter name="l4_sp_clk_source" value="1" />
+  <parameter name="use_default_mpu_clk" value="true" />
+  <parameter name="desired_mpu_clk_mhz" value="800.0" />
+  <parameter name="l3_mp_clk_div" value="1" />
+  <parameter name="l3_sp_clk_div" value="1" />
+  <parameter name="dbctrl_stayosc1" value="true" />
+  <parameter name="dbg_at_clk_div" value="0" />
+  <parameter name="dbg_clk_div" value="1" />
+  <parameter name="dbg_trace_clk_div" value="0" />
+  <parameter name="desired_l4_mp_clk_mhz" value="100.0" />
+  <parameter name="desired_l4_sp_clk_mhz" value="100.0" />
+  <parameter name="desired_cfg_clk_mhz" value="100.0" />
+  <parameter name="desired_sdmmc_clk_mhz" value="200.0" />
+  <parameter name="desired_nand_clk_mhz" value="12.5" />
+  <parameter name="desired_qspi_clk_mhz" value="400.0" />
+  <parameter name="desired_emac0_clk_mhz" value="250.0" />
+  <parameter name="desired_emac1_clk_mhz" value="250.0" />
+  <parameter name="desired_usb_mp_clk_mhz" value="200.0" />
+  <parameter name="desired_spi_m_clk_mhz" value="200.0" />
+  <parameter name="desired_can0_clk_mhz" value="100.0" />
+  <parameter name="desired_can1_clk_mhz" value="100.0" />
+  <parameter name="desired_gpio_db_clk_hz" value="32000" />
+  <parameter name="S2FCLK_USER0CLK_Enable" value="false" />
+  <parameter name="S2FCLK_USER1CLK_Enable" value="false" />
+  <parameter name="S2FCLK_USER2CLK_Enable" value="false" />
+  <parameter name="S2FCLK_USER1CLK_FREQ" value="100.0" />
+  <parameter name="S2FCLK_USER2CLK_FREQ" value="100.0" />
+  <parameter name="main_pll_m" value="63" />
+  <parameter name="main_pll_n" value="0" />
+  <parameter name="main_pll_c3" value="3" />
+  <parameter name="main_pll_c4" value="3" />
+  <parameter name="main_pll_c5" value="15" />
+  <parameter name="periph_pll_m" value="79" />
+  <parameter name="periph_pll_n" value="1" />
+  <parameter name="periph_pll_c0" value="3" />
+  <parameter name="periph_pll_c1" value="3" />
+  <parameter name="periph_pll_c2" value="1" />
+  <parameter name="periph_pll_c3" value="19" />
+  <parameter name="periph_pll_c4" value="4" />
+  <parameter name="periph_pll_c5" value="9" />
+  <parameter name="usb_mp_clk_div" value="0" />
+  <parameter name="spi_m_clk_div" value="0" />
+  <parameter name="can0_clk_div" value="1" />
+  <parameter name="can1_clk_div" value="1" />
+  <parameter name="gpio_db_clk_div" value="6249" />
+  <parameter name="l4_mp_clk_div" value="1" />
+  <parameter name="l4_sp_clk_div" value="1" />
   <parameter name="MPU_EVENTS_Enable" value="false" />
   <parameter name="GP_Enable" value="false" />
   <parameter name="DEBUGAPB_Enable" value="false" />
@@ -698,16 +797,6 @@
   <parameter name="TRACE_Mode" value="N/A" />
   <parameter name="GPIO_Enable">No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,Yes,Yes,Yes,Yes,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No</parameter>
   <parameter name="LOANIO_Enable">No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No</parameter>
-  <parameter name="S2FCLK_USER0CLK_Enable" value="false" />
-  <parameter name="S2FCLK_USER0CLK_FREQ" value="100" />
-  <parameter name="S2FCLK_USER1CLK_Enable" value="false" />
-  <parameter name="S2FCLK_USER1CLK_FREQ" value="100" />
-  <parameter name="S2FCLK_USER2CLK_Enable" value="false" />
-  <parameter name="S2FCLK_USER2CLK_FREQ" value="100" />
-  <parameter name="F2SCLK_PERIPHCLK_Enable" value="false" />
-  <parameter name="F2SCLK_PERIPHCLK_FREQ" value="100" />
-  <parameter name="F2SCLK_SDRAMCLK_Enable" value="false" />
-  <parameter name="F2SCLK_SDRAMCLK_FREQ" value="100" />
   <parameter name="F2H_AXI_CLOCK_FREQ" value="100" />
   <parameter name="H2F_AXI_CLOCK_FREQ" value="100" />
   <parameter name="H2F_LW_AXI_CLOCK_FREQ" value="50000000" />
@@ -763,9 +852,10 @@
      value="false" />
   <parameter name="quartus_ini_hps_ip_enable_bsel_csel" value="false" />
   <parameter name="quartus_ini_hps_ip_f2sdram_bonding_out" value="false" />
+  <parameter name="AUTO_BASE_DEVICE" value="Unknown" />
  </module>
  <module
-   kind="acl_kernel_interface"
+   kind="acl_kernel_interface_soc"
    version="1.0"
    enabled="1"
    name="acl_kernel_interface">
@@ -773,19 +863,21 @@
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_kernel_interface</parameter>
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE" value="5CSXFC6D6F31C8ES" />
+  <parameter name="AUTO_BASE_DEVICE" value="Unknown" />
   <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="1" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="1" />
-  <parameter name="AUTO_KERNEL_CLK_CLOCK_RATE" value="100000000" />
+  <parameter name="AUTO_KERNEL_IRQ_FROM_KERNEL_INTERRUPTS_USED" value="0" />
+  <parameter name="AUTO_KERNEL_CLK_CLOCK_RATE" value="0" />
   <parameter name="AUTO_KERNEL_CLK_CLOCK_DOMAIN" value="8" />
   <parameter name="AUTO_KERNEL_CLK_RESET_DOMAIN" value="8" />
  </module>
- <module kind="altera_pll" version="13.1" enabled="1" name="pll">
+ <module kind="altera_pll" version="14.1" enabled="1" name="pll">
   <parameter name="debug_print_output" value="false" />
   <parameter name="debug_use_rbc_taf_method" value="false" />
   <parameter name="device_family" value="Cyclone V" />
   <parameter name="device" value="5CSXFC6D6F31C8ES" />
-  <parameter name="gui_device_speed_grade" value="8" />
+  <parameter name="gui_device_speed_grade" value="2" />
   <parameter name="gui_pll_mode" value="Integer-N PLL" />
   <parameter name="gui_reference_clock_frequency" value="50.0" />
   <parameter name="gui_channel_spacing" value="0.0" />
@@ -987,7 +1079,7 @@
  </module>
  <module
    kind="altera_address_span_extender"
-   version="1.2"
+   version="14.1"
    enabled="1"
    name="address_span_extender_kernel">
   <parameter name="DATA_WIDTH" value="256" />
@@ -1001,148 +1093,140 @@
   <parameter name="AUTO_CLOCK_CLOCK_RATE" value="100000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
  </module>
+ <module
+   kind="altera_avalon_mm_bridge"
+   version="14.1"
+   enabled="1"
+   name="pipe_stage_host_ctrl">
+  <parameter name="DATA_WIDTH" value="32" />
+  <parameter name="SYMBOL_WIDTH" value="8" />
+  <parameter name="ADDRESS_WIDTH" value="10" />
+  <parameter name="SYSINFO_ADDR_WIDTH" value="16" />
+  <parameter name="USE_AUTO_ADDRESS_WIDTH" value="1" />
+  <parameter name="ADDRESS_UNITS" value="SYMBOLS" />
+  <parameter name="MAX_BURST_SIZE" value="1" />
+  <parameter name="MAX_PENDING_RESPONSES" value="4" />
+  <parameter name="LINEWRAPBURSTS" value="0" />
+  <parameter name="PIPELINE_COMMAND" value="1" />
+  <parameter name="PIPELINE_RESPONSE" value="1" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+ </module>
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="acl_kernel_clk.kernel_clk"
    end="kernel_clk.clk_in" />
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="global_reset.out_reset"
    end="acl_kernel_clk.reset" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="acl_kernel_clk.kernel_clk"
    end="clock_bridge.in_clk" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="acl_kernel_clk.kernel_clk"
    end="clock_cross_kernel_mem1.s0_clk" />
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="global_reset.out_reset"
    end="version_id.clk_reset" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="acl_kernel_clk.kernel_clk"
    end="acl_kernel_interface.kernel_clk" />
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="acl_kernel_interface.kernel_reset"
    end="kernel_clk.clk_in_reset" />
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="global_reset.out_reset"
    end="acl_kernel_interface.reset" />
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="global_reset.out_reset"
    end="acl_kernel_interface.sw_reset_in" />
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="acl_kernel_interface.kernel_reset"
    end="clock_cross_kernel_mem1.s0_reset" />
  <connection
    kind="interrupt"
-   version="13.1"
+   version="14.1"
    start="hps.f2h_irq0"
    end="acl_kernel_interface.kernel_irq_to_host">
   <parameter name="irqNumber" value="0" />
  </connection>
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="acl_kernel_interface.sw_reset_export"
    end="clock_cross_kernel_mem1.m0_reset" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="config_clk.out_clk"
    end="pll.refclk" />
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="global_reset.out_reset"
    end="pll.reset" />
  <connection
-   kind="avalon"
-   version="13.1"
-   start="hps.h2f_lw_axi_master"
-   end="version_id.s">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0xcfc0" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="13.1"
-   start="hps.h2f_lw_axi_master"
-   end="acl_kernel_interface.kernel_cntrl">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x4000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="13.1"
-   start="hps.h2f_lw_axi_master"
-   end="acl_kernel_clk.ctrl">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0xc000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="pll.outclk0"
    end="clock_cross_kernel_mem1.m0_clk" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="pll.outclk0"
    end="hps.f2h_sdram0_clock" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="config_clk.out_clk"
    end="acl_kernel_clk.clk" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="config_clk.out_clk"
    end="acl_kernel_interface.clk" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="config_clk.out_clk"
    end="version_id.clk" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="config_clk.out_clk"
    end="hps.h2f_lw_axi_clock" />
  <connection
    kind="clock"
-   version="13.1"
+   version="14.1"
    start="pll.outclk0"
    end="address_span_extender_kernel.clock" />
  <connection
    kind="reset"
-   version="13.1"
+   version="14.1"
    start="acl_kernel_interface.sw_reset_export"
    end="address_span_extender_kernel.reset" />
  <connection
    kind="avalon"
-   version="13.1"
+   version="14.1"
    start="clock_cross_kernel_mem1.m0"
    end="address_span_extender_kernel.windowed_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -1151,9 +1235,46 @@
  </connection>
  <connection
    kind="avalon"
-   version="13.1"
+   version="14.1"
    start="address_span_extender_kernel.expanded_master"
    end="hps.f2h_sdram0_data">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="clock"
+   version="14.1"
+   start="config_clk.out_clk"
+   end="pipe_stage_host_ctrl.clk" />
+ <connection
+   kind="reset"
+   version="14.1"
+   start="global_reset.out_reset"
+   end="pipe_stage_host_ctrl.reset" />
+ <connection
+   kind="avalon"
+   version="14.1"
+   start="pipe_stage_host_ctrl.m0"
+   end="version_id.s">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0xcfc0" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="14.1"
+   start="pipe_stage_host_ctrl.m0"
+   end="acl_kernel_interface.ctrl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x4000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="14.1"
+   start="hps.h2f_lw_axi_master"
+   end="pipe_stage_host_ctrl.s0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
