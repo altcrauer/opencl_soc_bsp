@@ -42,8 +42,8 @@ set_global_assignment -name PARTITION_COLOR 39423 -section_id "system_acl_iface_
 
 set_global_assignment -name PARTITION_IMPORT_FILE acl_iface_partition.qxp -section_id acl_iface_partition
 set_global_assignment -name INCREMENTAL_COMPILATION_EXPORT_FILE acl_iface_partition.qxp
-set_global_assignment -name TCL_SCRIPT_FILE scripts/post_module.tcl
-set_global_assignment -name POST_MODULE_SCRIPT_FILE "quartus_cdb:scripts/post_module.tcl"
+#set_global_assignment -name TCL_SCRIPT_FILE scripts/post_module.tcl
+#set_global_assignment -name POST_MODULE_SCRIPT_FILE "quartus_cdb:scripts/post_module.tcl"
 
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id acl_iface_partition
 set_global_assignment -name PARTITION_LAST_IMPORTED_FILE acl_iface_partition.qxp -section_id acl_iface_partition
