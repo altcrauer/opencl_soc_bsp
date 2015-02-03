@@ -1,6 +1,6 @@
 module top (
 	fpga_clk_50,
-  	fpga_reset_n,
+  	//fpga_reset_n,
   	fpga_led_output,
   
  	memory_mem_a,
@@ -41,7 +41,9 @@ module top (
 );
 
   input  wire 		fpga_clk_50;
-  input  wire 		fpga_reset_n;
+  //input  wire 		fpga_reset_n;
+  wire fpga_reset_n;
+  assign fpga_reset_n = 1'b1;
   output wire [3:0] 	fpga_led_output;
   
   output wire [14:0] 	memory_mem_a;

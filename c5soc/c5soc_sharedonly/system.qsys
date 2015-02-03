@@ -48,7 +48,7 @@
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="FIFO" />
  <parameter name="designEnvironment" value="SYSTEM" />
- <parameter name="device" value="5CSXFC6D6F31C8ES" />
+ <parameter name="device" value="5CSEMA4U23C6" />
  <parameter name="deviceFamily" value="Cyclone V" />
  <parameter name="deviceSpeedGrade" value="8_H6" />
  <parameter name="fabricMode" value="QSYS" />
@@ -110,7 +110,7 @@
   <parameter name="AUTO_GENERATION_ID" value="0" />
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_iface</parameter>
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
-  <parameter name="AUTO_DEVICE" value="5CSXFC6D6F31C8ES" />
+  <parameter name="AUTO_DEVICE" value="5CSEMA4U23C6" />
   <parameter name="AUTO_DESIGN_ENVIRONMENT" value="SYSTEM" />
   <parameter name="AUTO_CONFIG_CLK_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_CONFIG_CLK_CLOCK_DOMAIN" value="1" />

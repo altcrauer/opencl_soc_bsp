@@ -189,7 +189,7 @@
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
  <parameter name="designEnvironment" value="SYSTEM" />
- <parameter name="device" value="5CSXFC6D6F31C8ES" />
+ <parameter name="device" value="5CSEMA4U23C6" />
  <parameter name="deviceFamily" value="Cyclone V" />
  <parameter name="deviceSpeedGrade" value="8_H6" />
  <parameter name="fabricMode" value="QSYS" />
