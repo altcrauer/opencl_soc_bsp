@@ -34,9 +34,21 @@ module top (
   	sd_d,
   	uart_rx,
   	uart_tx,
-  	led,
-  	i2c_sda,
-  	i2c_scl
+  	//led,
+  	//i2c_sda,
+  	//i2c_scl
+	hps_usb1_D0,        
+	hps_usb1_D1,        
+	hps_usb1_D2,        
+	hps_usb1_D3,        
+	hps_usb1_D4,        
+	hps_usb1_D5,        
+	hps_usb1_D6,        
+	hps_usb1_D7,        
+	hps_usb1_CLK,       
+	hps_usb1_STP,       
+	hps_usb1_DIR,       
+	hps_usb1_NXT   
 
 );
 
@@ -77,9 +89,21 @@ module top (
   inout  wire [3:0] 	sd_d;
   input  wire 		uart_rx;
   output wire 		uart_tx;
-  inout  wire [3:0] 	led;
-  inout  wire 		i2c_scl;
-  inout  wire 		i2c_sda;
+  //inout  wire [3:0] 	led;
+  //inout  wire 		i2c_scl;
+  //inout  wire 		i2c_sda;
+  inout  wire        hps_usb1_D0;
+  inout  wire        hps_usb1_D1;
+  inout  wire        hps_usb1_D2;
+  inout  wire        hps_usb1_D3;
+  inout  wire        hps_usb1_D4;
+  inout  wire        hps_usb1_D5;
+  inout  wire        hps_usb1_D6;
+  inout  wire        hps_usb1_D7;
+  input  wire        hps_usb1_CLK;
+  output wire        hps_usb1_STP;
+  input  wire        hps_usb1_DIR;
+  input  wire        hps_usb1_NXT;
 
   wire	[29:0]	fpga_internal_led;
   wire		kernel_clk;
@@ -104,20 +128,20 @@ module top (
 	.memory_mem_odt                      			(memory_mem_odt),
 	.memory_mem_dm                       			(memory_mem_dm),
 	.memory_oct_rzqin                    			(memory_oct_rzqin),
-    	.peripheral_hps_io_emac0_inst_MDIO   			(emac_mdio),
-    	.peripheral_hps_io_emac0_inst_MDC    			(emac_mdc),
-    	.peripheral_hps_io_emac0_inst_TX_CLK 			(emac_tx_clk),
-    	.peripheral_hps_io_emac0_inst_TX_CTL 			(emac_tx_ctl),
-    	.peripheral_hps_io_emac0_inst_TXD0   			(emac_txd[0]),
-    	.peripheral_hps_io_emac0_inst_TXD1   			(emac_txd[1]),
-    	.peripheral_hps_io_emac0_inst_TXD2   			(emac_txd[2]),
-    	.peripheral_hps_io_emac0_inst_TXD3   			(emac_txd[3]),
-    	.peripheral_hps_io_emac0_inst_RX_CLK 			(emac_rx_clk),
-    	.peripheral_hps_io_emac0_inst_RX_CTL 			(emac_rx_ctl),
-    	.peripheral_hps_io_emac0_inst_RXD0   			(emac_rxd[0]),
-    	.peripheral_hps_io_emac0_inst_RXD1   			(emac_rxd[1]),
-    	.peripheral_hps_io_emac0_inst_RXD2   			(emac_rxd[2]),
-    	.peripheral_hps_io_emac0_inst_RXD3   			(emac_rxd[3]),
+    	.peripheral_hps_io_emac1_inst_MDIO   			(emac_mdio),
+    	.peripheral_hps_io_emac1_inst_MDC    			(emac_mdc),
+    	.peripheral_hps_io_emac1_inst_TX_CLK 			(emac_tx_clk),
+    	.peripheral_hps_io_emac1_inst_TX_CTL 			(emac_tx_ctl),
+    	.peripheral_hps_io_emac1_inst_TXD0   			(emac_txd[0]),
+    	.peripheral_hps_io_emac1_inst_TXD1   			(emac_txd[1]),
+    	.peripheral_hps_io_emac1_inst_TXD2   			(emac_txd[2]),
+    	.peripheral_hps_io_emac1_inst_TXD3   			(emac_txd[3]),
+    	.peripheral_hps_io_emac1_inst_RX_CLK 			(emac_rx_clk),
+    	.peripheral_hps_io_emac1_inst_RX_CTL 			(emac_rx_ctl),
+    	.peripheral_hps_io_emac1_inst_RXD0   			(emac_rxd[0]),
+    	.peripheral_hps_io_emac1_inst_RXD1   			(emac_rxd[1]),
+    	.peripheral_hps_io_emac1_inst_RXD2   			(emac_rxd[2]),
+    	.peripheral_hps_io_emac1_inst_RXD3   			(emac_rxd[3]),
     	.peripheral_hps_io_sdio_inst_CMD     			(sd_cmd),
     	.peripheral_hps_io_sdio_inst_CLK     			(sd_clk),
     	.peripheral_hps_io_sdio_inst_D0      			(sd_d[0]),
@@ -126,12 +150,25 @@ module top (
     	.peripheral_hps_io_sdio_inst_D3      			(sd_d[3]),
     	.peripheral_hps_io_uart0_inst_RX     			(uart_rx),
     	.peripheral_hps_io_uart0_inst_TX     			(uart_tx),
-    	.peripheral_hps_io_gpio_inst_GPIO41  			(led[3]),
-    	.peripheral_hps_io_gpio_inst_GPIO42  			(led[2]),
-    	.peripheral_hps_io_gpio_inst_GPIO43  			(led[1]),
-    	.peripheral_hps_io_gpio_inst_GPIO44  			(led[0]),
-	.peripheral_hps_io_i2c0_inst_SDA     			(i2c_sda),
-	.peripheral_hps_io_i2c0_inst_SCL     			(i2c_scl) 
+    	//.peripheral_hps_io_gpio_inst_GPIO41  			(led[3]),
+    	//.peripheral_hps_io_gpio_inst_GPIO42  			(led[2]),
+    	//.peripheral_hps_io_gpio_inst_GPIO43  			(led[1]),
+    	//.peripheral_hps_io_gpio_inst_GPIO44  			(led[0]),
+	//.peripheral_hps_io_i2c0_inst_SDA     			(i2c_sda),
+	//.peripheral_hps_io_i2c0_inst_SCL     			(i2c_scl),
+	.peripheral_hps_io_usb1_inst_D0      (hps_usb1_D0),      //           .hps_io_usb1_inst_D0
+	.peripheral_hps_io_usb1_inst_D1      (hps_usb1_D1),      //           .hps_io_usb1_inst_D1
+	.peripheral_hps_io_usb1_inst_D2      (hps_usb1_D2),      //           .hps_io_usb1_inst_D2
+	.peripheral_hps_io_usb1_inst_D3      (hps_usb1_D3),      //           .hps_io_usb1_inst_D3
+	.peripheral_hps_io_usb1_inst_D4      (hps_usb1_D4),      //           .hps_io_usb1_inst_D4
+	.peripheral_hps_io_usb1_inst_D5      (hps_usb1_D5),      //           .hps_io_usb1_inst_D5
+	.peripheral_hps_io_usb1_inst_D6      (hps_usb1_D6),      //           .hps_io_usb1_inst_D6
+	.peripheral_hps_io_usb1_inst_D7      (hps_usb1_D7),      //           .hps_io_usb1_inst_D7
+	.peripheral_hps_io_usb1_inst_CLK     (hps_usb1_CLK),     //           .hps_io_usb1_inst_CLK
+	.peripheral_hps_io_usb1_inst_STP     (hps_usb1_STP),     //           .hps_io_usb1_inst_STP
+	.peripheral_hps_io_usb1_inst_DIR     (hps_usb1_DIR),     //           .hps_io_usb1_inst_DIR
+	.peripheral_hps_io_usb1_inst_NXT     (hps_usb1_NXT)     //           .hps_io_usb1_inst_NXT
+
   );
  
   // module for visualizing the kernel clock with 4 LEDs
