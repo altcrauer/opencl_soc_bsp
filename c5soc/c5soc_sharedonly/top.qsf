@@ -87,7 +87,7 @@ set_global_assignment -name FLOW_DISABLE_ASSEMBLER ON
 # Pin Assignments
 #============================================================
 # Global clock and reset
-set_location_assignment PIN_V11 -to fpga_clk_50
+set_location_assignment PIN_E11 -to fpga_clk_50
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpga_clk_50
 #set_instance_assignment -name IO_STANDARD "2.5 V" -to fpga_reset_n
 
