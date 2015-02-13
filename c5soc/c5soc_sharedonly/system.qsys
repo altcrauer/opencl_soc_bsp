@@ -33,11 +33,27 @@
          type = "boolean";
       }
    }
+   element clock_bridge_0
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
    element ext_clk_50
    {
       datum _sortIndex
       {
          value = "0";
+         type = "int";
+      }
+   }
+   element reset_bridge_0
+   {
+      datum _sortIndex
+      {
+         value = "2";
          type = "int";
       }
    }
@@ -61,13 +77,18 @@
  <parameter name="timeStamp" value="0" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
- <interface name="clk_50" internal="ext_clk_50.clk_in" type="clock" dir="end" />
+ <interface name="clk_50" internal="ext_clk_50.clk_in" />
  <interface name="fpga_memory" internal="acl_iface.fpga_memory" />
  <interface name="fpga_memory_oct" internal="acl_iface.fpga_memory_oct" />
  <interface
    name="fpga_sdram_pll_sharing"
    internal="acl_iface.fpga_sdram_pll_sharing" />
  <interface name="fpga_sdram_status" internal="acl_iface.fpga_sdram_status" />
+ <interface
+   name="hps_fpga_clk"
+   internal="clock_bridge_0.out_clk"
+   type="clock"
+   dir="start" />
  <interface
    name="kernel_clk"
    internal="acl_iface.kernel_clk_snoop"
@@ -80,44 +101,75 @@
    type="conduit"
    dir="end" />
  <interface
-   name="reset_50"
-   internal="ext_clk_50.clk_in_reset"
+   name="reset"
+   internal="reset_bridge_0.in_reset"
    type="reset"
    dir="end" />
+ <interface name="reset_50" internal="ext_clk_50.clk_in_reset" />
  <module name="acl_iface" kind="acl_iface_system" version="1.0" enabled="1">
-  <parameter name="AUTO_CONFIG_CLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_CONFIG_CLK_CLOCK_DOMAIN" value="4" />
   <parameter name="AUTO_CONFIG_CLK_CLOCK_RATE" value="50000000" />
-  <parameter name="AUTO_CONFIG_CLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_CONFIG_CLK_RESET_DOMAIN" value="4" />
   <parameter name="AUTO_DEVICE" value="5CSEMA4U23C6" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8_H6" />
   <parameter name="AUTO_GENERATION_ID" value="0" />
   <parameter name="AUTO_KERNEL_IRQ_INTERRUPTS_USED" value="0" />
-  <parameter name="AUTO_KERNEL_PLL_REFCLK_CLOCK_DOMAIN" value="1" />
+  <parameter name="AUTO_KERNEL_PLL_REFCLK_CLOCK_DOMAIN" value="4" />
   <parameter name="AUTO_KERNEL_PLL_REFCLK_CLOCK_RATE" value="50000000" />
-  <parameter name="AUTO_KERNEL_PLL_REFCLK_RESET_DOMAIN" value="1" />
+  <parameter name="AUTO_KERNEL_PLL_REFCLK_RESET_DOMAIN" value="4" />
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_iface</parameter>
  </module>
- <module name="ext_clk_50" kind="clock_source" version="14.1" enabled="1">
+ <module
+   name="clock_bridge_0"
+   kind="altera_clock_bridge"
+   version="14.1"
+   enabled="1">
+  <parameter name="DERIVED_CLOCK_RATE" value="50000000" />
+  <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
+  <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
+ </module>
+ <module name="ext_clk_50" kind="clock_source" version="14.1" enabled="0">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
  </module>
+ <module
+   name="reset_bridge_0"
+   kind="altera_reset_bridge"
+   version="14.1"
+   enabled="1">
+  <parameter name="ACTIVE_LOW_RESET" value="0" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
+  <parameter name="NUM_RESET_OUTPUTS" value="1" />
+  <parameter name="SYNCHRONOUS_EDGES" value="deassert" />
+  <parameter name="USE_RESET_REQUEST" value="0" />
+ </module>
  <connection
    kind="clock"
    version="14.1"
-   start="ext_clk_50.clk"
+   start="acl_iface.hps_h2f_user1_clock"
+   end="reset_bridge_0.clk" />
+ <connection
+   kind="clock"
+   version="14.1"
+   start="acl_iface.hps_h2f_user1_clock"
    end="acl_iface.config_clk" />
  <connection
    kind="clock"
    version="14.1"
-   start="ext_clk_50.clk"
+   start="acl_iface.hps_h2f_user1_clock"
+   end="clock_bridge_0.in_clk" />
+ <connection
+   kind="clock"
+   version="14.1"
+   start="acl_iface.hps_h2f_user1_clock"
    end="acl_iface.kernel_pll_refclk" />
  <connection
    kind="reset"
    version="14.1"
-   start="ext_clk_50.clk_reset"
+   start="reset_bridge_0.out_reset"
    end="acl_iface.global_reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="FIFO" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="0" />

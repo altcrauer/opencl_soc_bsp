@@ -1,5 +1,5 @@
 module top (
-	fpga_clk_50,
+	//fpga_clk_50,
   	//fpga_reset_n,
   	fpga_led_output,
   
@@ -52,7 +52,8 @@ module top (
 
 );
 
-  input  wire 		fpga_clk_50;
+  //input  wire 		fpga_clk_50;
+  wire 		fpga_clk_50;
   //input  wire 		fpga_reset_n;
   wire fpga_reset_n;
   assign fpga_reset_n = 1'b1;
@@ -109,8 +110,8 @@ module top (
   wire		kernel_clk;
 
   system the_system (
-	.reset_50_reset_n                    			(fpga_reset_n),
-	.clk_50_clk                          			(fpga_clk_50),
+	.reset_reset                    			(~fpga_reset_n),
+	.hps_fpga_clk_clk                          		(fpga_clk_50),
         .kernel_clk_clk						(kernel_clk),
 	.memory_mem_a                        			(memory_mem_a),
 	.memory_mem_ba                       			(memory_mem_ba),

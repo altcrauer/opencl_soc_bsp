@@ -206,6 +206,11 @@
    dir="end">
   <port name="reset_n" internal="in_reset_n" />
  </interface>
+ <interface
+   name="hps_h2f_user1_clock"
+   internal="hps.h2f_user1_clock"
+   type="clock"
+   dir="start" />
  <interface name="kernel_clk" internal="kernel_clk.clk" type="clock" dir="start" />
  <interface
    name="kernel_clk2x"
@@ -261,9 +266,9 @@
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="6" />
   <parameter name="AUTO_GENERATION_ID" value="0" />
-  <parameter name="AUTO_PLL_REFCLK_CLOCK_DOMAIN" value="6" />
+  <parameter name="AUTO_PLL_REFCLK_CLOCK_DOMAIN" value="7" />
   <parameter name="AUTO_PLL_REFCLK_CLOCK_RATE" value="0" />
-  <parameter name="AUTO_PLL_REFCLK_RESET_DOMAIN" value="6" />
+  <parameter name="AUTO_PLL_REFCLK_RESET_DOMAIN" value="7" />
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_kernel_clk</parameter>
   <parameter name="KERNEL_TARGET_CLOCK_RATE" value="140" />
   <parameter name="REF_CLK_RATE" value="50.0" />
@@ -280,9 +285,9 @@
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="6" />
   <parameter name="AUTO_GENERATION_ID" value="0" />
-  <parameter name="AUTO_KERNEL_CLK_CLOCK_DOMAIN" value="8" />
+  <parameter name="AUTO_KERNEL_CLK_CLOCK_DOMAIN" value="9" />
   <parameter name="AUTO_KERNEL_CLK_CLOCK_RATE" value="0" />
-  <parameter name="AUTO_KERNEL_CLK_RESET_DOMAIN" value="8" />
+  <parameter name="AUTO_KERNEL_CLK_RESET_DOMAIN" value="9" />
   <parameter name="AUTO_KERNEL_IRQ_FROM_KERNEL_INTERRUPTS_USED" value="0" />
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_kernel_interface</parameter>
  </module>
