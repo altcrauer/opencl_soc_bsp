@@ -21,7 +21,7 @@
    {
       datum _sortIndex
       {
-         value = "1";
+         value = "0";
          type = "int";
       }
    }
@@ -37,23 +37,7 @@
    {
       datum _sortIndex
       {
-         value = "3";
-         type = "int";
-      }
-   }
-   element ext_clk_50
-   {
-      datum _sortIndex
-      {
-         value = "0";
-         type = "int";
-      }
-   }
-   element reset_bridge_0
-   {
-      datum _sortIndex
-      {
-         value = "2";
+         value = "1";
          type = "int";
       }
    }
@@ -77,7 +61,6 @@
  <parameter name="timeStamp" value="0" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
- <interface name="clk_50" internal="ext_clk_50.clk_in" />
  <interface name="fpga_memory" internal="acl_iface.fpga_memory" />
  <interface name="fpga_memory_oct" internal="acl_iface.fpga_memory_oct" />
  <interface
@@ -100,12 +83,6 @@
    internal="acl_iface.peripheral"
    type="conduit"
    dir="end" />
- <interface
-   name="reset"
-   internal="reset_bridge_0.in_reset"
-   type="reset"
-   dir="end" />
- <interface name="reset_50" internal="ext_clk_50.clk_in_reset" />
  <module name="acl_iface" kind="acl_iface_system" version="1.0" enabled="1">
   <parameter name="AUTO_CONFIG_CLK_CLOCK_DOMAIN" value="4" />
   <parameter name="AUTO_CONFIG_CLK_CLOCK_RATE" value="50000000" />
@@ -129,28 +106,6 @@
   <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
   <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
  </module>
- <module name="ext_clk_50" kind="clock_source" version="14.1" enabled="0">
-  <parameter name="clockFrequency" value="50000000" />
-  <parameter name="clockFrequencyKnown" value="true" />
-  <parameter name="inputClockFrequency" value="0" />
-  <parameter name="resetSynchronousEdges" value="NONE" />
- </module>
- <module
-   name="reset_bridge_0"
-   kind="altera_reset_bridge"
-   version="14.1"
-   enabled="1">
-  <parameter name="ACTIVE_LOW_RESET" value="0" />
-  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
-  <parameter name="NUM_RESET_OUTPUTS" value="1" />
-  <parameter name="SYNCHRONOUS_EDGES" value="deassert" />
-  <parameter name="USE_RESET_REQUEST" value="0" />
- </module>
- <connection
-   kind="clock"
-   version="14.1"
-   start="acl_iface.hps_h2f_user1_clock"
-   end="reset_bridge_0.clk" />
  <connection
    kind="clock"
    version="14.1"
@@ -169,7 +124,7 @@
  <connection
    kind="reset"
    version="14.1"
-   start="reset_bridge_0.out_reset"
+   start="acl_iface.hps_h2f_reset"
    end="acl_iface.global_reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="FIFO" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="0" />

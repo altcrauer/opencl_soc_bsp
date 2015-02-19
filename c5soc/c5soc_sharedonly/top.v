@@ -110,7 +110,6 @@ module top (
   wire		kernel_clk;
 
   system the_system (
-	.reset_reset                    			(~fpga_reset_n),
 	.hps_fpga_clk_clk                          		(fpga_clk_50),
         .kernel_clk_clk						(kernel_clk),
 	.memory_mem_a                        			(memory_mem_a),
