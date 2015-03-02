@@ -1,15 +1,9 @@
-#init_opencl_script
-
 #get exact script path
 SCRIPT_PATH=`readlink -f ${BASH_SOURCE[0]}`
 #get director of script path
 SCRIPT_DIR_PATH="$(dirname $SCRIPT_PATH)"
 
-export ALTERAOCLSDKROOT=$SCRIPT_DIR_PATH/opencl_arm32_rte
-export AOCL_BOARD_PACKAGE_ROOT=$ALTERAOCLSDKROOT/board/c5soc
-export PATH=$ALTERAOCLSDKROOT/bin:$PATH
-export LD_LIBRARY_PATH=$ALTERAOCLSDKROOT/host/arm32/lib:$LD_LIBRARY_PATH
-
+#init_opencl_script
 function check_fpga_user_mode() {
 	local FPGA_STATUS=`cat /sys/class/fpga/fpga0/status`
 	if [ "$FPGA_STATUS" == "user mode" ]; then
@@ -19,8 +13,8 @@ function check_fpga_user_mode() {
 	fi
 }
 
-function load_opencl_rbf() {
-		local OPENCL_RBF_FILE="opencl.rbf"
+function load_ghrd_rbf() {
+		local OPENCL_RBF_FILE="ghrd.rbf"
 	
 		#first try to load the rbf if available
 		if [ -e $OPENCL_RBF_FILE ]; then
@@ -46,27 +40,9 @@ function load_opencl_rbf() {
 }
 
 if [ -e "/dev/acl0" ]; then
-	echo "driver is already loaded"
+	rmmod aclsoc_drv
+	echo "OpenCL Driver unloaded sucessfully"
+	load_ghrd_rbf
 else
-	if [ $(check_fpga_user_mode) == "1" ]; then
-		
-		#program the FPGA with the initial opencl rbf.  This is only necessary
-		#if there is a non-opencl FPGA image currently loaded.  Normally,
-		#one of these images is loaded by default at boot time.
-		load_opencl_rbf
-		
-		insmod $AOCL_BOARD_PACKAGE_ROOT/driver/aclsoc_drv.ko
-		
-		if [ ! -e "/dev/acl0" ]; then
-			echo "driver load failed unexpectedly"
-		fi
-	
-		echo "OpenCL Driver loaded"
-	else
-		echo "FPGA is not programmed.  You can't load the driver without an" 
-		echp "FPGA image already progammed into the FPGA"
-		echo ""
-		echo "Are your MSEL jumper settings correct?"
-	fi
+	echo "OpenCL Driver has not been loaded"
 fi
-
