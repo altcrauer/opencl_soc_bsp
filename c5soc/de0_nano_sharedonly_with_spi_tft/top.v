@@ -48,7 +48,18 @@ module top (
 	hps_usb1_CLK,       
 	hps_usb1_STP,       
 	hps_usb1_DIR,       
-	hps_usb1_NXT   
+	hps_usb1_NXT,
+	
+	sclk_clk,
+	spim_txd,
+	spim_rxd,
+	spim_ssi_oe_n,
+	spim_ss_0_n,
+	spim_ss_1_n,
+	spim_ss_2_n,
+	spim_ss_3_n,
+        
+	tft_pio_export
 
 );
 
@@ -106,8 +117,20 @@ module top (
   input  wire        hps_usb1_DIR;
   input  wire        hps_usb1_NXT;
 
+  output wire sclk_clk;
+  output wire spim_txd;
+  input wire spim_rxd;
+  output wire spim_ssi_oe_n;
+  output wire spim_ss_0_n;
+  output wire spim_ss_1_n;
+  output wire spim_ss_2_n;
+  output wire spim_ss_3_n;
+  output wire [31:0] tft_pio_export;
+  
   wire	[29:0]	fpga_internal_led;
   wire		kernel_clk;
+  
+  wire spim_ss_in_n;
 
   system the_system (
 	.hps_fpga_clk_clk                          		(fpga_clk_50),
@@ -167,9 +190,20 @@ module top (
 	.peripheral_hps_io_usb1_inst_CLK     (hps_usb1_CLK),     //           .hps_io_usb1_inst_CLK
 	.peripheral_hps_io_usb1_inst_STP     (hps_usb1_STP),     //           .hps_io_usb1_inst_STP
 	.peripheral_hps_io_usb1_inst_DIR     (hps_usb1_DIR),     //           .hps_io_usb1_inst_DIR
-	.peripheral_hps_io_usb1_inst_NXT     (hps_usb1_NXT)     //           .hps_io_usb1_inst_NXT
-
+	.peripheral_hps_io_usb1_inst_NXT     (hps_usb1_NXT),     //           .hps_io_usb1_inst_NXT
+        .hps_spim0_txd                       (spim_txd),                       //          hps_spim0.txd
+        .hps_spim0_rxd                       (spim_rxd),                       //                   .rxd
+        .hps_spim0_ss_in_n                   (spim_ss_in_n),                   //                   .ss_in_n
+        .hps_spim0_ssi_oe_n                  (spim_ssi_oe_n),                  //                   .ssi_oe_n
+        .hps_spim0_ss_0_n                    (spim_ss_0_n),                    //                   .ss_0_n
+        .hps_spim0_ss_1_n                    (spim_ss_1_n),                    //                   .ss_1_n
+        .hps_spim0_ss_2_n                    (spim_ss_2_n),                    //                   .ss_2_n
+        .hps_spim0_ss_3_n                    (spim_ss_3_n),                    //                   .ss_3_n
+        .hps_spim0_sclk_out_clk              (sclk_clk),              // hps_spim0_sclk_out.clk
+        .adafruit_tft_pio_export             (tft_pio_export)              //   adafruit_tft_pio.export
   );
+  
+  assign spim_ss_in_n = 1'b1;
  
   // module for visualizing the kernel clock with 4 LEDs
   async_counter_30 AC30 (

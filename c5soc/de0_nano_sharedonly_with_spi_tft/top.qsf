@@ -116,6 +116,57 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sd_cmd
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sd_clk
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sd_d
 
+#Adafruit TFT display
+set_location_assignment PIN_AH12 -to sclk_clk
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sclk_clk
+set_location_assignment PIN_AG16 -to spim_txd
+set_location_assignment PIN_AH11 -to spim_rxd
+set_location_assignment PIN_AF15 -to spim_ss_0_n
+set_location_assignment PIN_AF17 -to spim_ss_1_n
+set_location_assignment PIN_U14 -to spim_ss_2_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to spim_rxd
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to spim_ss_0_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to spim_ss_1_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to spim_ss_2_n
+set_instance_assignment -name VIRTUAL_PIN ON -to spim_ss_3_n
+set_instance_assignment -name VIRTUAL_PIN ON -to spim_ssi_oe_n
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to spim_txd
+set_location_assignment PIN_AE15 -to tft_pio_export[31] -disable
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to tft_pio_export[31]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[2]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[3]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[4]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[5]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[6]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[7]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[8]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[9]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[10]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[11]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[12]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[13]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[14]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[15]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[16]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[17]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[18]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[19]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[20]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[21]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[22]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[23]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[24]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[25]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[26]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[27]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[28]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[29]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[30]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[31]
+set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[1]
+set_location_assignment PIN_AE15 -to tft_pio_export[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to tft_pio_export[0]
+
 #============================================================
 # End of original settings
 #============================================================

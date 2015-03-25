@@ -59,6 +59,22 @@
          type = "String";
       }
    }
+   element adafruit_tft_pio
+   {
+      datum _sortIndex
+      {
+         value = "12";
+         type = "int";
+      }
+   }
+   element adafruit_tft_pio.s1
+   {
+      datum baseAddress
+      {
+         value = "8192";
+         type = "String";
+      }
+   }
    element address_span_extender_kernel
    {
       datum _sortIndex
@@ -198,6 +214,11 @@
    internal="acl_kernel_clk.kernel_pll_locked"
    type="conduit"
    dir="end" />
+ <interface
+   name="adafruit_tft_pio"
+   internal="adafruit_tft_pio.external_connection"
+   type="conduit"
+   dir="end" />
  <interface name="config_clk" internal="config_clk.in_clk" type="clock" dir="end" />
  <interface
    name="global_reset"
@@ -214,6 +235,12 @@
  <interface
    name="hps_h2f_user1_clock"
    internal="hps.h2f_user1_clock"
+   type="clock"
+   dir="start" />
+ <interface name="hps_spim0" internal="hps.spim0" type="conduit" dir="end" />
+ <interface
+   name="hps_spim0_sclk_out"
+   internal="hps.spim0_sclk_out"
    type="clock"
    dir="start" />
  <interface name="kernel_clk" internal="kernel_clk.clk" type="clock" dir="start" />
@@ -271,9 +298,9 @@
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="6" />
   <parameter name="AUTO_GENERATION_ID" value="0" />
-  <parameter name="AUTO_PLL_REFCLK_CLOCK_DOMAIN" value="8" />
+  <parameter name="AUTO_PLL_REFCLK_CLOCK_DOMAIN" value="9" />
   <parameter name="AUTO_PLL_REFCLK_CLOCK_RATE" value="0" />
-  <parameter name="AUTO_PLL_REFCLK_RESET_DOMAIN" value="8" />
+  <parameter name="AUTO_PLL_REFCLK_RESET_DOMAIN" value="9" />
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_kernel_clk</parameter>
   <parameter name="KERNEL_TARGET_CLOCK_RATE" value="140" />
   <parameter name="REF_CLK_RATE" value="50.0" />
@@ -290,11 +317,29 @@
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="6" />
   <parameter name="AUTO_GENERATION_ID" value="0" />
-  <parameter name="AUTO_KERNEL_CLK_CLOCK_DOMAIN" value="10" />
+  <parameter name="AUTO_KERNEL_CLK_CLOCK_DOMAIN" value="11" />
   <parameter name="AUTO_KERNEL_CLK_CLOCK_RATE" value="0" />
-  <parameter name="AUTO_KERNEL_CLK_RESET_DOMAIN" value="10" />
+  <parameter name="AUTO_KERNEL_CLK_RESET_DOMAIN" value="11" />
   <parameter name="AUTO_KERNEL_IRQ_FROM_KERNEL_INTERRUPTS_USED" value="0" />
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_kernel_interface</parameter>
+ </module>
+ <module
+   name="adafruit_tft_pio"
+   kind="altera_avalon_pio"
+   version="14.1"
+   enabled="1">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="clockRate" value="50000000" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="32" />
  </module>
  <module
    name="address_span_extender_kernel"
@@ -737,8 +782,8 @@
   <parameter name="SKIP_MEM_INIT" value="true" />
   <parameter name="SOPC_COMPAT_RESET" value="false" />
   <parameter name="SPEED_GRADE" value="7" />
-  <parameter name="SPIM0_Mode" value="N/A" />
-  <parameter name="SPIM0_PinMuxing" value="Unused" />
+  <parameter name="SPIM0_Mode" value="Full" />
+  <parameter name="SPIM0_PinMuxing" value="FPGA" />
   <parameter name="SPIM1_Mode" value="N/A" />
   <parameter name="SPIM1_PinMuxing" value="Unused" />
   <parameter name="SPIS0_Mode" value="N/A" />
@@ -1158,6 +1203,15 @@
  <connection
    kind="avalon"
    version="14.1"
+   start="pipe_stage_host_ctrl.m0"
+   end="adafruit_tft_pio.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x2000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="14.1"
    start="clock_cross_kernel_mem1.m0"
    end="address_span_extender_kernel.windowed_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -1204,6 +1258,11 @@
    version="14.1"
    start="config_clk.out_clk"
    end="pipe_stage_host_ctrl.clk" />
+ <connection
+   kind="clock"
+   version="14.1"
+   start="config_clk.out_clk"
+   end="adafruit_tft_pio.clk" />
  <connection
    kind="clock"
    version="14.1"
@@ -1271,6 +1330,11 @@
    version="14.1"
    start="global_reset.out_reset"
    end="pipe_stage_host_ctrl.reset" />
+ <connection
+   kind="reset"
+   version="14.1"
+   start="global_reset.out_reset"
+   end="adafruit_tft_pio.reset" />
  <connection
    kind="reset"
    version="14.1"

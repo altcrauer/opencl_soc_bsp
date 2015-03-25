@@ -61,6 +61,11 @@
  <parameter name="timeStamp" value="0" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
+ <interface
+   name="adafruit_tft_pio"
+   internal="acl_iface.adafruit_tft_pio"
+   type="conduit"
+   dir="end" />
  <interface name="fpga_memory" internal="acl_iface.fpga_memory" />
  <interface name="fpga_memory_oct" internal="acl_iface.fpga_memory_oct" />
  <interface
@@ -70,6 +75,16 @@
  <interface
    name="hps_fpga_clk"
    internal="clock_bridge_0.out_clk"
+   type="clock"
+   dir="start" />
+ <interface
+   name="hps_spim0"
+   internal="acl_iface.hps_spim0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="hps_spim0_sclk_out"
+   internal="acl_iface.hps_spim0_sclk_out"
    type="clock"
    dir="start" />
  <interface
@@ -84,17 +99,17 @@
    type="conduit"
    dir="end" />
  <module name="acl_iface" kind="acl_iface_system" version="1.0" enabled="1">
-  <parameter name="AUTO_CONFIG_CLK_CLOCK_DOMAIN" value="4" />
+  <parameter name="AUTO_CONFIG_CLK_CLOCK_DOMAIN" value="5" />
   <parameter name="AUTO_CONFIG_CLK_CLOCK_RATE" value="50000000" />
-  <parameter name="AUTO_CONFIG_CLK_RESET_DOMAIN" value="4" />
+  <parameter name="AUTO_CONFIG_CLK_RESET_DOMAIN" value="5" />
   <parameter name="AUTO_DEVICE" value="5CSEMA4U23C6" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8_H6" />
   <parameter name="AUTO_GENERATION_ID" value="0" />
   <parameter name="AUTO_KERNEL_IRQ_INTERRUPTS_USED" value="0" />
-  <parameter name="AUTO_KERNEL_PLL_REFCLK_CLOCK_DOMAIN" value="4" />
+  <parameter name="AUTO_KERNEL_PLL_REFCLK_CLOCK_DOMAIN" value="5" />
   <parameter name="AUTO_KERNEL_PLL_REFCLK_CLOCK_RATE" value="50000000" />
-  <parameter name="AUTO_KERNEL_PLL_REFCLK_RESET_DOMAIN" value="4" />
+  <parameter name="AUTO_KERNEL_PLL_REFCLK_RESET_DOMAIN" value="5" />
   <parameter name="AUTO_UNIQUE_ID">$${FILENAME}_acl_iface</parameter>
  </module>
  <module
