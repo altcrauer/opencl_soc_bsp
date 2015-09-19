@@ -53,6 +53,7 @@
  <parameter name="globalResetBus" value="false" />
  <parameter name="hdlLanguage" value="VERILOG" />
  <parameter name="hideFromIPCatalog" value="false" />
+ <parameter name="lockedInterfaceDefinition" value="" />
  <parameter name="maxAdditionalLatency" value="0" />
  <parameter name="projectName" value="top.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
@@ -64,6 +65,11 @@
  <interface
    name="adafruit_tft_pio"
    internal="acl_iface.adafruit_tft_pio"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="button_pio"
+   internal="acl_iface.button_pio"
    type="conduit"
    dir="end" />
  <interface name="fpga_memory" internal="acl_iface.fpga_memory" />
@@ -106,6 +112,8 @@
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8_H6" />
   <parameter name="AUTO_GENERATION_ID" value="0" />
+  <parameter name="AUTO_KERNEL_CRA_ADDRESS_MAP" value="" />
+  <parameter name="AUTO_KERNEL_CRA_ADDRESS_WIDTH" value="" />
   <parameter name="AUTO_KERNEL_IRQ_INTERRUPTS_USED" value="0" />
   <parameter name="AUTO_KERNEL_PLL_REFCLK_CLOCK_DOMAIN" value="5" />
   <parameter name="AUTO_KERNEL_PLL_REFCLK_CLOCK_RATE" value="50000000" />
@@ -115,7 +123,7 @@
  <module
    name="clock_bridge_0"
    kind="altera_clock_bridge"
-   version="14.1"
+   version="15.0"
    enabled="1">
   <parameter name="DERIVED_CLOCK_RATE" value="50000000" />
   <parameter name="EXPLICIT_CLOCK_RATE" value="0" />
@@ -123,22 +131,22 @@
  </module>
  <connection
    kind="clock"
-   version="14.1"
+   version="15.0"
    start="acl_iface.hps_h2f_user1_clock"
    end="acl_iface.config_clk" />
  <connection
    kind="clock"
-   version="14.1"
+   version="15.0"
    start="acl_iface.hps_h2f_user1_clock"
    end="clock_bridge_0.in_clk" />
  <connection
    kind="clock"
-   version="14.1"
+   version="15.0"
    start="acl_iface.hps_h2f_user1_clock"
    end="acl_iface.kernel_pll_refclk" />
  <connection
    kind="reset"
-   version="14.1"
+   version="15.0"
    start="acl_iface.hps_h2f_reset"
    end="acl_iface.global_reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="FIFO" />

@@ -167,6 +167,12 @@ set_instance_assignment -name VIRTUAL_PIN ON -to tft_pio_export[1]
 set_location_assignment PIN_AE15 -to tft_pio_export[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to tft_pio_export[0]
 
+#FPGA GPIO buttons
+set_location_assignment PIN_AH17 -to fpga_push_button[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpga_push_button[0]
+set_location_assignment PIN_AH16 -to fpga_push_button[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to fpga_push_button[1]
+
 #============================================================
 # End of original settings
 #============================================================

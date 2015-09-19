@@ -58,6 +58,8 @@ module top (
 	spim_ss_1_n,
 	spim_ss_2_n,
 	spim_ss_3_n,
+	
+	fpga_push_button,
         
 	tft_pio_export
 
@@ -69,6 +71,7 @@ module top (
   wire fpga_reset_n;
   assign fpga_reset_n = 1'b1;
   output wire [3:0] 	fpga_led_output;
+  input wire [1:0] fpga_push_button;
   
   output wire [14:0] 	memory_mem_a;
   output wire [2:0] 	memory_mem_ba;
@@ -200,6 +203,7 @@ module top (
         .hps_spim0_ss_2_n                    (spim_ss_2_n),                    //                   .ss_2_n
         .hps_spim0_ss_3_n                    (spim_ss_3_n),                    //                   .ss_3_n
         .hps_spim0_sclk_out_clk              (sclk_clk),              // hps_spim0_sclk_out.clk
+        .button_pio_export                   (fpga_push_button),
         .adafruit_tft_pio_export             (tft_pio_export)              //   adafruit_tft_pio.export
   );
   

@@ -158,6 +158,9 @@ set_false_path -from {async_counter_30:AC30|count_a[14]} -to *
 set_false_path -from {system:the_system|system_acl_iface:acl_iface|system_acl_iface_acl_kernel_clk:acl_kernel_clk|timer:counter|counter2x_a[15]} -to *
 set_false_path -from {system:the_system|system_acl_iface:acl_iface|system_acl_iface_acl_kernel_clk:acl_kernel_clk|timer:counter|counter_a[15]} -to *
 
+#push buttons are slow
+set_false_path -from [get_ports fpga_push_button[*]] -to *
+
 # fix for stability of FPGA DDR accesses
 if {$::quartus(nameofexecutable) == "quartus_fit"} {
   set_min_delay -from system:the_system|system_fpga_sdram:fpga_sdram|altera_mem_if_hard_memory_controller_top_cyclonev:c0|hmc_inst~FF_* 0.5
